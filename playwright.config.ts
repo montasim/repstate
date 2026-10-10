@@ -3,10 +3,10 @@ import { defineConfig } from "@playwright/test"
 export default defineConfig({
   testDir: "e2e",
   timeout: 120_000,
-  use: { baseURL: "http://localhost:3000", headless: true },
+  use: { baseURL: "http://localhost:3300", headless: true },
   webServer: {
-    command: "pnpm build && pnpm preview",
-    port: 3000,
+    command: "pnpm build && pnpm preview --port 3300",
+    port: 3300,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
   },
@@ -15,6 +15,7 @@ export default defineConfig({
       name: "chromium",
       use: {
         browserName: "chromium",
+        channel: "chromium",
         launchOptions: {
           args: [
             "--use-gl=swiftshader",
