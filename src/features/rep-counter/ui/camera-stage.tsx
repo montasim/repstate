@@ -19,8 +19,8 @@ export type CameraStageProps = {
   getLandmarks: () => Landmark[] | null
   markRender: (at: number) => void
   highlight: number[]
-  /** Shown in the error overlay; omit on the benchmark page. */
-  fallbackLink?: boolean
+  /** Live camera shows a fallback link to the clips; a clip shows a plain error. */
+  source?: "camera" | "clip"
 }
 
 export function CameraStage({
@@ -32,7 +32,7 @@ export function CameraStage({
   getLandmarks,
   markRender,
   highlight,
-  fallbackLink = true,
+  source = "camera",
 }: CameraStageProps) {
   return (
     <div className="relative aspect-[4/3] w-full max-w-2xl overflow-hidden rounded-lg bg-muted">
@@ -56,9 +56,11 @@ export function CameraStage({
         <div className="absolute inset-0 flex items-center justify-center bg-background/90 p-4">
           <Alert variant="destructive" role="alert">
             <AlertIcon />
-            <AlertTitle>Camera unavailable</AlertTitle>
+            <AlertTitle>
+              {source === "camera" ? "Camera unavailable" : "Clip unavailable"}
+            </AlertTitle>
             <AlertDescription>{error}</AlertDescription>
-            {fallbackLink && (
+            {source === "camera" && (
               <Button asChild variant="link" className="px-0">
                 <Link to="/benchmark">Try the sample clips instead</Link>
               </Button>

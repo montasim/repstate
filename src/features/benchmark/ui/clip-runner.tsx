@@ -87,7 +87,7 @@ export function ClipRunner({ spec, record, onDone }: ClipRunnerProps) {
           getLandmarks={session.getLandmarks}
           markRender={session.markRender}
           highlight={highlight}
-          fallbackLink={false}
+          source="clip"
         />
         <RepCounter snapshot={session.snapshot} />
         <PerfHud perf={session.perf} />
