@@ -8,49 +8,49 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root"
-import { Route as IndexRouteImport } from "./routes/index"
-import { Route as BenchmarkRouteImport } from "./routes/benchmark"
-import { Route as HowItWorksRouteImport } from "./routes/how-it-works"
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as BenchmarkRouteImport } from './routes/benchmark'
+import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 
 const IndexRoute = IndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BenchmarkRoute = BenchmarkRouteImport.update({
-  id: "/benchmark",
-  path: "/benchmark",
+  id: '/benchmark',
+  path: '/benchmark',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HowItWorksRoute = HowItWorksRouteImport.update({
-  id: "/how-it-works",
-  path: "/how-it-works",
+  id: '/how-it-works',
+  path: '/how-it-works',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute
-  "/benchmark": typeof BenchmarkRoute
-  "/how-it-works": typeof HowItWorksRoute
+  '/': typeof IndexRoute
+  '/benchmark': typeof BenchmarkRoute
+  '/how-it-works': typeof HowItWorksRoute
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute
-  "/benchmark": typeof BenchmarkRoute
-  "/how-it-works": typeof HowItWorksRoute
+  '/': typeof IndexRoute
+  '/benchmark': typeof BenchmarkRoute
+  '/how-it-works': typeof HowItWorksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  "/": typeof IndexRoute
-  "/benchmark": typeof BenchmarkRoute
-  "/how-it-works": typeof HowItWorksRoute
+  '/': typeof IndexRoute
+  '/benchmark': typeof BenchmarkRoute
+  '/how-it-works': typeof HowItWorksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/" | "/benchmark" | "/how-it-works"
+  fullPaths: '/' | '/benchmark' | '/how-it-works'
   fileRoutesByTo: FileRoutesByTo
-  to: "/" | "/benchmark" | "/how-it-works"
-  id: "__root__" | "/" | "/benchmark" | "/how-it-works"
+  to: '/' | '/benchmark' | '/how-it-works'
+  id: '__root__' | '/' | '/benchmark' | '/how-it-works'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -59,26 +59,26 @@ export interface RootRouteChildren {
   HowItWorksRoute: typeof HowItWorksRoute
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      id: "/"
-      path: "/"
-      fullPath: "/"
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/benchmark": {
-      id: "/benchmark"
-      path: "/benchmark"
-      fullPath: "/benchmark"
+    '/benchmark': {
+      id: '/benchmark'
+      path: '/benchmark'
+      fullPath: '/benchmark'
       preLoaderRoute: typeof BenchmarkRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/how-it-works": {
-      id: "/how-it-works"
-      path: "/how-it-works"
-      fullPath: "/how-it-works"
+    '/how-it-works': {
+      id: '/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/how-it-works'
       preLoaderRoute: typeof HowItWorksRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -94,9 +94,9 @@ export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
-import type { getRouter } from "./router.tsx"
-import type { createStart } from "@tanstack/react-start"
-declare module "@tanstack/react-start" {
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
