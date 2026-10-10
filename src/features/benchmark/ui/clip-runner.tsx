@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { PlayIcon, RefreshIcon } from "@/components/ui/icons"
 import { getExercise } from "@/features/rep-counter/domain/exercises"
-import type { Frame } from "@/features/rep-counter/domain/types"
+import type { Delegate, Frame } from "@/features/rep-counter/domain/types"
 import { CameraStage } from "@/features/rep-counter/ui/camera-stage"
 import { PerfHud } from "@/features/rep-counter/ui/perf-hud"
 import { RepCounter } from "@/features/rep-counter/ui/rep-counter"
@@ -16,12 +16,18 @@ export type ClipRunnerProps = {
   spec: ClipSpec
   /** When true, landmark frames are collected for fixture export. */
   record: boolean
+  delegate?: Delegate
   onDone: (result: ClipResult, frames: Frame[]) => void
 }
 
-export function ClipRunner({ spec, record, onDone }: ClipRunnerProps) {
+export function ClipRunner({ spec, record, delegate, onDone }: ClipRunnerProps) {
   const [enabled, setEnabled] = useState(false)
-  const session = useRepSession({ exercise: spec.exercise, clipUrl: clipUrl(spec), enabled })
+  const session = useRepSession({
+    exercise: spec.exercise,
+    clipUrl: clipUrl(spec),
+    enabled,
+    delegate,
+  })
   const exercise = getExercise(spec.exercise)
   const highlight = useMemo(() => exercise.joints.flat(), [exercise])
   const frames = useRef<Frame[]>([])
@@ -36,7 +42,14 @@ export function ClipRunner({ spec, record, onDone }: ClipRunnerProps) {
   useEffect(() => {
     if (session.status !== "ended" || reported.current || !session.perf) return
     reported.current = true
-    const { renderFps, inferenceFps, inferenceP50, inferenceP95, dropped, delegate } = session.perf
+    const {
+      renderFps,
+      inferenceFps,
+      inferenceP50,
+      inferenceP95,
+      dropped,
+      delegate: usedDelegate,
+    } = session.perf
     onDone(
       {
         ...spec,
@@ -46,7 +59,7 @@ export function ClipRunner({ spec, record, onDone }: ClipRunnerProps) {
         inferenceP50,
         inferenceP95,
         dropped,
-        delegate,
+        delegate: usedDelegate,
       },
       frames.current
     )

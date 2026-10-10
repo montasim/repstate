@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react"
-import type { EngineEvent, ExerciseId, Landmark, Snapshot } from "../domain/types"
+import type { Delegate, EngineEvent, ExerciseId, Landmark, Snapshot } from "../domain/types"
 import type { PerfSample } from "../application/perf-tracker"
 import type { RepSession } from "../application/rep-session"
 
@@ -11,10 +11,12 @@ export type UseRepSessionOptions = {
   exercise: ExerciseId
   clipUrl: string | null
   enabled: boolean
+  /** Force a compute backend; default tries GPU first. */
+  delegate?: Delegate
 }
 
 /** Owns the session lifecycle for a video element. Heavy modules are imported lazily so prerender never loads them. */
-export function useRepSession({ exercise, clipUrl, enabled }: UseRepSessionOptions) {
+export function useRepSession({ exercise, clipUrl, enabled, delegate }: UseRepSessionOptions) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const sessionRef = useRef<RepSession | null>(null)
   const [status, setStatus] = useState<SessionStatus>("idle")
@@ -47,6 +49,7 @@ export function useRepSession({ exercise, clipUrl, enabled }: UseRepSessionOptio
           video,
           exercise,
           clipUrl,
+          delegate,
           listeners: {
             onFrame: ({ landmarks: next, events, snapshot: nextSnapshot }) => {
               setLandmarks(next)
@@ -78,7 +81,7 @@ export function useRepSession({ exercise, clipUrl, enabled }: UseRepSessionOptio
       sessionRef.current = null
       dispose?.()
     }
-  }, [enabled, exercise, clipUrl, generation])
+  }, [enabled, exercise, clipUrl, delegate, generation])
 
   return {
     videoRef,

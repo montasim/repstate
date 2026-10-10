@@ -17,6 +17,8 @@ export interface FrameSource {
   readonly element: VideoFrameLike
   readonly kind: "camera" | "video"
   stop: () => void
+  /** Subscribe to end-of-media (clips only; a camera never ends). Returns an unsubscribe function. */
+  onEnded: (cb: () => void) => () => void
 }
 
 /** Frame timing and visibility, abstracted so the session can be tested with a fake clock. */

@@ -16,6 +16,10 @@ export async function createVideoSource(
   return {
     element: video,
     kind: "video",
+    onEnded: (cb) => {
+      video.addEventListener("ended", cb)
+      return () => video.removeEventListener("ended", cb)
+    },
     stop: () => {
       video.pause()
       video.removeAttribute("src")

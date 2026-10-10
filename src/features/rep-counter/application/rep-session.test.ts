@@ -47,10 +47,21 @@ class FakeDetector implements PoseDetector {
   close = () => {}
 }
 
-const makeSource = (video: VideoFrameLike): FrameSource => ({
+type EndedEmitter = { fire: () => void }
+
+const makeSource = (
+  video: VideoFrameLike,
+  ended: EndedEmitter = { fire: () => {} }
+): FrameSource => ({
   element: video,
   kind: "video",
   stop: () => {},
+  onEnded: (cb) => {
+    ended.fire = cb
+    return () => {
+      ended.fire = () => {}
+    }
+  },
 })
 
 function setup(angles: number[], costMs = 5) {
@@ -142,5 +153,27 @@ describe("RepSession", () => {
     scheduler.tick(40)
     scheduler.tick(40)
     expect(ended).toBe(1)
+  })
+
+  it("finishes on the source ended event even when no frame callback fires", () => {
+    let ended = 0
+    const scheduler = new FakeScheduler()
+    const video: VideoFrameLike = { currentTime: 0, paused: false, ended: false }
+    const emitter: EndedEmitter = { fire: () => {} }
+    const session = new RepSession(
+      {
+        source: makeSource(video, emitter),
+        detector: new FakeDetector([], 1, scheduler),
+        scheduler,
+        engine: new RepEngine(EXERCISES.squat),
+      },
+      { onFrame: () => {}, onPerf: () => {}, onEnded: () => ended++ }
+    )
+    session.start()
+    video.ended = true
+    emitter.fire()
+    emitter.fire()
+    expect(ended).toBe(1)
+    session.stop()
   })
 })

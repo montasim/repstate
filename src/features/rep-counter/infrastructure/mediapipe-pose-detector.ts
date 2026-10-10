@@ -36,8 +36,9 @@ class MediaPipePoseDetector implements PoseDetector {
   }
 }
 
-/** GPU first; on any failure fall back to CPU and report which delegate is active. */
-export async function createMediaPipeDetector(): Promise<PoseDetector> {
+/** GPU first (unless CPU is requested); on any failure fall back to CPU and report which delegate is active. */
+export async function createMediaPipeDetector(preferred: Delegate = "GPU"): Promise<PoseDetector> {
+  if (preferred === "CPU") return new MediaPipePoseDetector(await build("CPU"), "CPU")
   try {
     return new MediaPipePoseDetector(await build("GPU"), "GPU")
   } catch (gpuError) {

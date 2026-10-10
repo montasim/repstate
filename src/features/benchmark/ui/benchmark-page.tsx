@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react"
-import type { Frame } from "@/features/rep-counter/domain/types"
+import type { Delegate, Frame } from "@/features/rep-counter/domain/types"
 import type { ClipResult } from "../domain/benchmark-report"
 import { CLIPS } from "../domain/clips"
 import { BenchmarkActions } from "./benchmark-actions"
 import { ClipRunner } from "./clip-runner"
 
-export function BenchmarkPage({ record }: { record: boolean }) {
+export function BenchmarkPage({ record, delegate }: { record: boolean; delegate?: Delegate }) {
   const [results, setResults] = useState<Record<string, ClipResult>>({})
   const [recordings, setRecordings] = useState<Record<string, Frame[]>>({})
 
@@ -27,7 +27,13 @@ export function BenchmarkPage({ record }: { record: boolean }) {
         </p>
       </section>
       {CLIPS.map((spec) => (
-        <ClipRunner key={spec.clip} spec={spec} record={record} onDone={onDone} />
+        <ClipRunner
+          key={spec.clip}
+          spec={spec}
+          record={record}
+          delegate={delegate}
+          onDone={onDone}
+        />
       ))}
       <BenchmarkActions results={ordered} recordings={recordings} />
     </div>

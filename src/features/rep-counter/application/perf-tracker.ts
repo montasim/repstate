@@ -3,6 +3,8 @@ import { RollingWindow } from "./rolling-window"
 
 const WINDOW_SIZE = 30
 const SECOND_MS = 1000
+/** First inferences include shader compilation and are not representative of steady-state cost. */
+const WARMUP_INFERENCES = 3
 
 export type PerfSample = {
   at: number
@@ -39,11 +41,13 @@ export class PerfTracker {
   private inferences = new Stamps()
   private renders = new Stamps()
   private dropped = 0
+  private inferenceCount = 0
 
   constructor(private readonly delegate: Delegate) {}
 
   recordInference(ms: number, at: number): void {
-    this.window.push(ms)
+    this.inferenceCount++
+    if (this.inferenceCount > WARMUP_INFERENCES) this.window.push(ms)
     this.inferences.push(at)
   }
 
@@ -72,6 +76,7 @@ export class PerfTracker {
     this.inferences.clear()
     this.renders.clear()
     this.dropped = 0
+    this.inferenceCount = 0
     this.window.clear()
   }
 }

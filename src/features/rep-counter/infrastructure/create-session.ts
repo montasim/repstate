@@ -1,6 +1,6 @@
 import { getExercise } from "../domain/exercises"
 import { RepEngine } from "../domain/rep-engine"
-import type { ExerciseId } from "../domain/types"
+import type { Delegate, ExerciseId } from "../domain/types"
 import { RepSession } from "../application/rep-session"
 import type { SessionListeners } from "../application/rep-session"
 import { createBrowserScheduler } from "./browser-frame-scheduler"
@@ -13,6 +13,8 @@ export type CreateSessionOptions = {
   exercise: ExerciseId
   /** null → live camera */
   clipUrl: string | null
+  /** Force a compute backend; default tries GPU first. */
+  delegate?: Delegate
   listeners: SessionListeners
 }
 
@@ -23,9 +25,10 @@ export async function createSession({
   video,
   exercise,
   clipUrl,
+  delegate,
   listeners,
 }: CreateSessionOptions): Promise<CreatedSession> {
-  const detector = await createMediaPipeDetector()
+  const detector = await createMediaPipeDetector(delegate)
   let source
   try {
     source = clipUrl ? await createVideoSource(video, clipUrl) : await createCameraSource(video)

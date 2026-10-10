@@ -25,6 +25,9 @@ describe("budgetMs", () => {
     expect(budgetMs(filled(100), 30)).toBeCloseTo(120))
   it("uses the floor when the window is empty", () =>
     expect(budgetMs(new RollingWindow(30), 30)).toBeCloseTo(1000 / 30))
+  it("caps the budget so a slow device still infers at least 4 times per second", () => {
+    expect(budgetMs(filled(2000), 30)).toBe(250)
+  })
 })
 
 describe("shouldInfer", () => {

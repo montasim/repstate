@@ -41,6 +41,7 @@ export class RepSession {
   private latest: Landmark[] | null = null
   private ended = false
   private unsubscribeVisibility: () => void = () => {}
+  private unsubscribeEnded: () => void = () => {}
   private readonly perf: PerfTracker
 
   constructor(
@@ -56,6 +57,8 @@ export class RepSession {
     this.unsubscribeVisibility = this.deps.scheduler.onVisibilityChange(() => {
       if (!this.deps.scheduler.isHidden()) this.schedule()
     })
+    // After the last decoded frame no frame callback fires, so the end must arrive as an event.
+    this.unsubscribeEnded = this.deps.source.onEnded(() => this.finish())
     this.schedule()
   }
 
@@ -63,6 +66,7 @@ export class RepSession {
   stop(): void {
     this.stopped = true
     this.unsubscribeVisibility()
+    this.unsubscribeEnded()
     if (this.handle !== null) this.deps.scheduler.cancelFrame(this.handle)
   }
 
