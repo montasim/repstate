@@ -8,9 +8,9 @@ const NODES = [
 
 // Curves below the main row are spread so labels never sit on another edge.
 const EDGES = [
-  { d: "M100,60 L180,60", label: "visible ∧ angle ≥ up", x: 140, y: 45 },
-  { d: "M260,60 L340,60", label: "angle ≤ down", x: 300, y: 45 },
-  { d: "M420,60 L500,60", label: "angle ≥ up ∧ dwell ≥ 200 ms → rep", x: 460, y: 45 },
+  { d: "M100,60 L180,60", label: "visible ∧ angle ≥ up", x: 140, y: 30 },
+  { d: "M260,60 L340,60", label: "angle ≤ down", x: 300, y: 30 },
+  { d: "M420,60 L500,60", label: "angle ≥ up ∧ dwell ≥ 200 ms → rep", x: 460, y: 30 },
   { d: "M380,78 Q305,130 230,78", label: "angle ≥ up, dwell < 200 ms (no rep)", x: 305, y: 122 },
   { d: "M540,78 Q385,240 230,78", label: "next frame", x: 385, y: 178 },
   { d: "M220,78 L285,232", label: "3 low-visibility frames", x: 150, y: 190 },
