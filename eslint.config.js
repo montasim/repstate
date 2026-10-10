@@ -33,6 +33,78 @@ export default [
     },
   },
   {
-    ignores: ["eslint.config.js", ".prettierrc", "dist/**", "src/routeTree.gen.ts", "scripts/**"],
+    files: ["src/features/**/domain/**/*.ts"],
+    ignores: ["**/*.test.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: [
+                "react",
+                "react-*",
+                "@mediapipe/*",
+                "@tanstack/*",
+                "@/components/*",
+                "@/features/*/application/*",
+                "@/features/*/infrastructure/*",
+                "@/features/*/ui/*",
+                "../application/*",
+                "../infrastructure/*",
+                "../ui/*",
+              ],
+              message: "domain must stay pure.",
+            },
+          ],
+        },
+      ],
+      "no-restricted-globals": [
+        "error",
+        "window",
+        "document",
+        "navigator",
+        "performance",
+        "requestAnimationFrame",
+      ],
+    },
+  },
+  {
+    files: ["src/features/**/application/**/*.ts"],
+    ignores: ["**/*.test.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: [
+                "react",
+                "react-*",
+                "@mediapipe/*",
+                "@tanstack/*",
+                "@/components/*",
+                "@/features/*/infrastructure/*",
+                "@/features/*/ui/*",
+                "../infrastructure/*",
+                "../ui/*",
+              ],
+              message: "application depends on domain and ports only.",
+            },
+          ],
+        },
+      ],
+      "no-restricted-globals": [
+        "error",
+        "window",
+        "document",
+        "navigator",
+        "performance",
+        "requestAnimationFrame",
+      ],
+    },
+  },
+  {
+    ignores: ["eslint.config.js", ".prettierrc", "dist/**", "public/**", "src/routeTree.gen.ts", "scripts/**"],
   },
 ]
