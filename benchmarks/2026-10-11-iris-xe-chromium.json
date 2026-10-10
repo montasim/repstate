@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "date": "2026-10-11",
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+  "hardwareConcurrency": 8,
+  "results": [
+    {
+      "clip": "lunge-9",
+      "exercise": "lunge",
+      "groundTruth": 9,
+      "detected": 9,
+      "renderFps": 59,
+      "inferenceFps": 15,
+      "inferenceP50": 12.400000005960464,
+      "inferenceP95": 13.800000011920929,
+      "dropped": 321,
+      "delegate": "GPU"
+    },
+    {
+      "clip": "pushup-4",
+      "exercise": "pushup",
+      "groundTruth": 4,
+      "detected": 4,
+      "renderFps": 60,
+      "inferenceFps": 15,
+      "inferenceP50": 12.899999976158142,
+      "inferenceP95": 14.099999994039536,
+      "dropped": 117,
+      "delegate": "GPU"
+    }
+  ]
+}

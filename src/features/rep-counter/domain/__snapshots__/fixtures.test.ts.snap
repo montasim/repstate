@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`fixture lunge-9 > produces a stable state sequence 1`] = `
+[
+  "READY",
+  "DOWN",
+  "UP",
+  "READY",
+  "DOWN",
+  "UP",
+  "READY",
+  "DOWN",
+  "UP",
+  "READY",
+  "DOWN",
+  "UP",
+  "READY",
+  "DOWN",
+  "UP",
+  "READY",
+  "DOWN",
+  "UP",
+  "READY",
+  "DOWN",
+  "UP",
+  "READY",
+  "DOWN",
+  "UP",
+  "READY",
+  "DOWN",
+  "UP",
+]
+`;
+
+exports[`fixture pushup-4 > produces a stable state sequence 1`] = `
+[
+  "READY",
+  "DOWN",
+  "UP",
+  "READY",
+  "DOWN",
+  "UP",
+  "READY",
+  "DOWN",
+  "UP",
+  "READY",
+  "DOWN",
+  "UP",
+  "READY",
+]
+`;

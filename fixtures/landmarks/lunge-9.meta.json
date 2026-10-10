@@ -1,0 +1,5 @@
+{
+  "groundTruthReps": 9,
+  "exercise": "lunge",
+  "recordedWith": { "model": "pose_landmarker_lite float16", "delegate": "GPU", "date": "2026-10-11" }
+}

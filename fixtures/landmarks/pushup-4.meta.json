@@ -1,0 +1,5 @@
+{
+  "groundTruthReps": 4,
+  "exercise": "pushup",
+  "recordedWith": { "model": "pose_landmarker_lite float16", "delegate": "GPU", "date": "2026-10-11" }
+}

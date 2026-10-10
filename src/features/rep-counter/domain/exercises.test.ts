@@ -16,7 +16,9 @@ describe("exercise definitions", () => {
     for (const def of Object.values(EXERCISES))
       expect(def.upAngle - def.downAngle).toBeGreaterThanOrEqual(30)
   })
-  it("lists ids in display order", () => expect(EXERCISE_IDS).toEqual(["squat", "pushup"]))
+  it("defines lunge on hip-knee-ankle like the squat", () =>
+    expect(EXERCISES.lunge.joints).toEqual(EXERCISES.squat.joints))
+  it("lists ids in display order", () => expect(EXERCISE_IDS).toEqual(["squat", "pushup", "lunge"]))
   it("getExercise returns the table entry", () =>
     expect(getExercise("squat")).toBe(EXERCISES.squat))
 })

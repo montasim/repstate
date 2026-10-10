@@ -11,7 +11,7 @@ import { chromium } from "@playwright/test"
 const PORT = 3200
 const BASE = `http://localhost:${PORT}`
 const label = process.argv[2] ?? "headless-swiftshader"
-const date = new Date().toISOString().slice(0, 10)
+const date = new Date().toLocaleDateString("sv-SE") // local YYYY-MM-DD
 
 const server = spawn("pnpm", ["dev", "--port", String(PORT)], { stdio: "ignore" })
 const stop = () => server.kill("SIGTERM")

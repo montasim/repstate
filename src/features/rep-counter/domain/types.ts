@@ -15,7 +15,7 @@ export type EngineEvent =
 /** [a, b, c] landmark indices; the angle is measured at b. */
 export type JointTriple = [number, number, number]
 
-export type ExerciseId = "squat" | "pushup"
+export type ExerciseId = "squat" | "pushup" | "lunge"
 
 export type ExerciseDef = {
   id: ExerciseId

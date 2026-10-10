@@ -30,9 +30,23 @@ export const EXERCISES: Record<ExerciseId, ExerciseDef> = {
     minVisibility: DEFAULT_MIN_VISIBILITY,
     lostHint: "Turn side-on so your shoulders, elbows and wrists are in frame.",
   },
+  lunge: {
+    id: "lunge",
+    label: "Lunge",
+    // Same joints as the squat: the front knee bends past the threshold on every lunge.
+    joints: [
+      [23, 25, 27],
+      [24, 26, 28],
+    ],
+    downAngle: 100,
+    upAngle: 160,
+    minDwellMs: DEFAULT_DWELL_MS,
+    minVisibility: DEFAULT_MIN_VISIBILITY,
+    lostHint: "Step back so your hips, knees and ankles are in frame.",
+  },
 }
 
-export const EXERCISE_IDS: ExerciseId[] = ["squat", "pushup"]
+export const EXERCISE_IDS: ExerciseId[] = ["squat", "pushup", "lunge"]
 
 /** Lookup by id; ids are a closed union so this never fails at runtime. */
 export function getExercise(id: ExerciseId): ExerciseDef {
