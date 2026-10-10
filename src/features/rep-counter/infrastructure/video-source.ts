@@ -1,7 +1,23 @@
 import type { FrameSource } from "../application/ports"
-import { whenMetadataLoaded } from "./camera-source"
 
-/** Load a clip URL into `video` and play it once. */
+/** Resolve once the first frame is decoded (readyState ≥ HAVE_CURRENT_DATA); reject on a media error. */
+function whenFirstFrameReady(video: HTMLVideoElement): Promise<void> {
+  if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) return Promise.resolve()
+  return new Promise((resolve, reject) => {
+    const onLoaded = () => {
+      video.removeEventListener("error", onError)
+      resolve()
+    }
+    const onError = () => {
+      video.removeEventListener("loadeddata", onLoaded)
+      reject(new Error(video.error?.message || "Video failed to load"))
+    }
+    video.addEventListener("loadeddata", onLoaded, { once: true })
+    video.addEventListener("error", onError, { once: true })
+  })
+}
+
+/** Load a clip URL into `video`, paused on its first frame; `start` plays it once. */
 export async function createVideoSource(
   video: HTMLVideoElement,
   url: string
@@ -11,11 +27,11 @@ export async function createVideoSource(
   video.muted = true
   video.playsInline = true
   video.loop = false
-  await whenMetadataLoaded(video)
-  await video.play()
+  await whenFirstFrameReady(video)
   return {
     element: video,
     kind: "video",
+    start: () => video.play(),
     onEnded: (cb) => {
       video.addEventListener("ended", cb)
       return () => video.removeEventListener("ended", cb)

@@ -3,7 +3,7 @@
 // Usage: node scripts/record-fixtures.mjs [device-label]
 // HEADED=1 opens a visible Chromium window so the real GPU is used (headless has no GPU; inference is ~10x slower).
 import { spawn } from "node:child_process"
-import { mkdirSync, mkdtempSync, renameSync } from "node:fs"
+import { copyFileSync, mkdirSync, mkdtempSync, unlinkSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { chromium } from "@playwright/test"
@@ -89,7 +89,8 @@ for (const clip of clips) {
 await browser.close()
 stop()
 for (const [from, to] of staged) {
-  renameSync(join(staging, from), to)
+  copyFileSync(join(staging, from), to)
+  unlinkSync(join(staging, from))
   console.log(`saved ${to}`)
 }
 process.exit(0)

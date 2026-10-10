@@ -12,10 +12,12 @@ export interface PoseDetector {
   close: () => void
 }
 
-/** A playing video element (camera stream or clip). */
+/** A video element (camera stream or clip). Created ready-but-paused where possible; `start` begins playback. */
 export interface FrameSource {
   readonly element: VideoFrameLike
   readonly kind: "camera" | "video"
+  /** Begin playback. A camera is already live after creation, so this may be a no-op. */
+  start: () => Promise<void>
   stop: () => void
   /** Subscribe to end-of-media (clips only; a camera never ends). Returns an unsubscribe function. */
   onEnded: (cb: () => void) => () => void

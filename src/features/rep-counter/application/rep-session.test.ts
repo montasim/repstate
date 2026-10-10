@@ -55,6 +55,7 @@ const makeSource = (
 ): FrameSource => ({
   element: video,
   kind: "video",
+  start: () => Promise.resolve(),
   stop: () => {},
   onEnded: (cb) => {
     ended.fire = cb

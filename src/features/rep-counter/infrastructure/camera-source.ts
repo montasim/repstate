@@ -33,6 +33,7 @@ export async function createCameraSource(video: HTMLVideoElement): Promise<Frame
   return {
     element: video,
     kind: "camera",
+    start: () => Promise.resolve(),
     onEnded: () => () => {},
     stop: () => {
       stream.getTracks().forEach((t) => t.stop())

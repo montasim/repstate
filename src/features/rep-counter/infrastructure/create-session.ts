@@ -36,6 +36,8 @@ export async function createSession({
     detector.close()
     throw error
   }
+  // First inference compiles shaders (~2 s on GPU). Do it on the still first frame so playback starts warm.
+  detector.detect(video, performance.now())
   const session = new RepSession(
     {
       source,
@@ -45,6 +47,7 @@ export async function createSession({
     },
     listeners
   )
+  await source.start()
   session.start()
   return {
     session,
