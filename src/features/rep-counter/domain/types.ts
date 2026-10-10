@@ -36,3 +36,6 @@ export type Snapshot = {
   angle: number | null
   lastRepAt: number | null
 }
+
+/** Which compute backend ran inference; reported, never branched on, by domain code. */
+export type Delegate = "GPU" | "CPU"

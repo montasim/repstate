@@ -1,6 +1,6 @@
-import type { Landmark } from "../domain/types"
+import type { Delegate, Landmark } from "../domain/types"
 
-export type Delegate = "GPU" | "CPU"
+export type { Delegate }
 
 /** Structural subset of HTMLVideoElement used by the session; keeps application code DOM-free. */
 export type VideoFrameLike = { currentTime: number; paused: boolean; ended: boolean }

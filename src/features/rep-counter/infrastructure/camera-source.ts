@@ -5,12 +5,21 @@ const CAMERA_CONSTRAINTS: MediaStreamConstraints = {
   audio: false,
 }
 
-/** Resolve once the element knows its dimensions (readyState ≥ HAVE_METADATA). */
+/** Resolve once the element knows its dimensions (readyState ≥ HAVE_METADATA); reject on a media error. */
 export function whenMetadataLoaded(video: HTMLVideoElement): Promise<void> {
   if (video.readyState >= HTMLMediaElement.HAVE_METADATA) return Promise.resolve()
-  return new Promise((resolve) =>
-    video.addEventListener("loadedmetadata", () => resolve(), { once: true })
-  )
+  return new Promise((resolve, reject) => {
+    const onLoaded = () => {
+      video.removeEventListener("error", onError)
+      resolve()
+    }
+    const onError = () => {
+      video.removeEventListener("loadedmetadata", onLoaded)
+      reject(new Error(video.error?.message || "Video failed to load"))
+    }
+    video.addEventListener("loadedmetadata", onLoaded, { once: true })
+    video.addEventListener("error", onError, { once: true })
+  })
 }
 
 /** Attach the user-facing camera to `video` and start playback. Rejects when permission is denied. */
